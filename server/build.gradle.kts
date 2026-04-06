@@ -84,6 +84,10 @@ springBoot {
     buildInfo()
 }
 
+tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
+    jvmArgs("--add-opens", "java.base/java.nio=ALL-UNNAMED")
+}
+
 jib {
     to {
         image = ghcrImage

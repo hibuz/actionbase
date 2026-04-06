@@ -1,0 +1,43 @@
+services:
+  actionbase-dev:
+    image: mcr.microsoft.com/devcontainers/base:ubuntu
+    container_name: actionbase-dev
+    volumes:
+      - ..:/workspaces/actionbase:cached
+    command: sleep infinity
+
+  spark-dev:
+    container_name: spark
+    image: hibuz/spark-dev:3.5.8
+    ports:
+      - 9870:9870
+      - 8088:8088
+      - 19888:19888
+      - 16010:16010
+      - 4040:4040
+      - 8090:8090
+      - 8091:8091
+      - 18080:18080
+      - 2181:2181
+    command: spark,hbase #hive,spark,hbase,yarn,historyserver
+    volumes:
+      - spark-vol:/tmp
+      - ./init.hb:/init.hb
+
+#  broker:
+#    extends:
+#      file: ../../kafka-all-in-one/docker-compose.yml
+#      service: broker
+#  kafka-ui:
+#    extends:
+#      file: ../../kafka-all-in-one/docker-compose-full.yml
+#      service: kafka-ui
+
+volumes:
+  spark-vol: {}
+#  kafka-vol: {}
+
+networks:
+  default:
+    driver: bridge
+    name: hibuz-net

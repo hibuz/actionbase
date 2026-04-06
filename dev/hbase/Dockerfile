@@ -61,9 +61,12 @@ set -e
 exec > /opt/hbase/logs/startup.log 2>&1
 
 # Disable SVE warning (ARM architecture issue)
-export HBASE_OPTS="${HBASE_OPTS} -XX:UseSVE=0"
-export HBASE_MASTER_OPTS="${HBASE_MASTER_OPTS} -XX:UseSVE=0"
-export HBASE_REGIONSERVER_OPTS="${HBASE_REGIONSERVER_OPTS} -XX:UseSVE=0"
+ARCH=$(uname -m)
+if [ "${ARCH}" = "aarch64" ] || [ "${ARCH}" = "arm64" ]; then
+  export HBASE_OPTS="${HBASE_OPTS} -XX:UseSVE=0"
+  export HBASE_MASTER_OPTS="${HBASE_MASTER_OPTS} -XX:UseSVE=0"
+  export HBASE_REGIONSERVER_OPTS="${HBASE_REGIONSERVER_OPTS} -XX:UseSVE=0"
+fi
 
 # Clean up stale ZooKeeper files
 rm -f /data/zookeeper/zookeeper_server.pid 2>/dev/null || true

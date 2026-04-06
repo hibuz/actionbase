@@ -49,6 +49,9 @@ gradle-app.setting
 .project
 .classpath
 
+# VSCode
+bin/
+
 # Website & Guides
 dist/
 .astro/

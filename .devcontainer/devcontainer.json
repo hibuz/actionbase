@@ -1,0 +1,45 @@
+{
+    "name": "Java",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "actionbase-dev",
+    "workspaceFolder": "/workspaces/actionbase",
+    "features": {
+       "ghcr.io/devcontainers/features/java:1": {
+        "version": "17",
+        "additionalVersions": "8"
+      },
+      "ghcr.io/devcontainers/features/go:1": {
+        "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/node:1": {
+        "version": "24"
+      },
+      "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+    },
+    "remoteEnv": {
+      "DOCKER_API_VERSION": "1.43"
+    },
+  //"initializeCommand": "if [ ! -d \"../kafka-all-in-one\" ]; then git clone https://github.com/hibuz/kafka-all-in-one.git ../kafka-all-in-one; git clone https://github.com/hibuz/hadoop-docker.git ../hadoop-docker; fi",
+    "initializeCommand": "if [ ! -d \"../kafka-all-in-one\" ]; then git clone https://github.com/hibuz/kafka-all-in-one.git ../kafka-all-in-one; fi",
+  //"postCreateCommand": "./gradlew :server:bootJar -x test --no-daemon; cd cli && make deps && make build && cd ..; docker exec spark hbase shell /init.hb",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "vmware.vscode-boot-dev-pack",
+          "fwcd.kotlin",
+          "k--kato.intellij-idea-keybindings",
+          "eamodio.gitlens"
+        ],
+        "settings": {
+          "locale": "en"
+        }
+      }
+    },
+    "forwardPorts": [
+        "8081:8080", // ActionBase Server
+        "16011:16010", // HBase Master UI
+        4040,  // Spark Jobs UI
+        8090  // Spark Master UI
+        //8989  // Kafka UI
+    ]
+}
